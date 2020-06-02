@@ -1,9 +1,10 @@
 Page({
   data: {
     imgUrls: [
-      '/image/b1.jpg',
-      '/image/b2.jpg',
-      '/image/b3.jpg'
+      '/image/wugu.jpg',
+      '/image/tiaoliao.jpg',
+      '/image/shucai.jpg'
+      
     ],
     indicatorDots: false,
     autoplay: false,
