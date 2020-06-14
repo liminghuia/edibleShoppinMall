@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoppings.dao.IOrderFormDao">
+
+    <insert id="saveOrderform" parameterType="com.shoppings.model.OrderForm" >
+
+        insert into orderform(order_number,order_state,order_time)
+        values (#{orderNumber},#{orderState},NOW())
+    </insert>
+
+
+    <select id="selectNowOrderForm" parameterType="java.lang.Integer" resultType="map">
+        SELECT * FROM shopping_car a
+         INNER JOIN classifys  b ON a.classifys_id = b.shoppingcar_id
+        INNER JOIN orderform c ON a.ordernumber = c.order_number
+        WHERE userid = #{userid}
+    </select>
+</mapper>

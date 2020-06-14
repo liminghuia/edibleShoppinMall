@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoppings.dao.IShoppingCarDao">
+    <insert id="saveClassifysToShoppingCar" parameterType="com.shoppings.model.ShoppingCar" >
+         INSERT INTO shopping_car(userid,classifys_id,quantity)
+         VALUES
+         (#{userid},#{classifysid},#{quantity})
+    </insert>
+
+
+    <select id="selectShoppingCar"  parameterType="java.lang.Integer" resultType="com.shoppings.model.Classifys" >
+        SELECT * FROM shopping_car a INNER JOIN Classifys b ON b.shoppingcar_id = a.classifys_id
+        WHERE a.userid = #{userid}  AND state &lt;&gt; 1
+
+    </select>
+
+    
+
+    <update id="addOrReduceShoppingCarClassifys" parameterType="java.lang.Integer">
+        update shopping_car
+        set
+
+        <choose>
+            <when test="addreduce == 1">
+                quantity = quantity + 1
+            </when>
+            <otherwise>
+                quantity = quantity - 1
+            </otherwise>
+        </choose>
+
+        where userid = #{userid} and classifys_id = #{classifysid}  And state = 0
+
+    </update>
+
+
+    <delete id="deleteShoppingCar" parameterType="java.lang.Integer">
+        delete from shopping_car
+        where userid = #{userid} and classifys_id = #{classifysid And state = 0
+    </delete>
+
+    <select id="selectOneShoppingCar" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+
+        select count(*) from shopping_car where userid = #{userid} and classifys_id = #{classifysid} And state = 0
+    </select>
+
+
+    <update id="updateShoppingCarQuantity" parameterType="java.lang.Integer">
+
+        update shopping_car
+        set quantity = quantity + 1
+        WHERE userid = #{userid} AND classifys_id = #{classifysid} And state = 0
+
+    </update>
+
+    <update id="updateShoppingCarState" parameterType="com.shoppings.model.ShoppingCar" >
+
+        update shopping_car
+        set state = 1 , ordernumber = #{ordernumber}
+        where classifys_id = #{classifysid} and userid = #{userid} and state = 0
+    </update>
+</mapper>

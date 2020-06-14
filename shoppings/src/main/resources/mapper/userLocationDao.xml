@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoppings.dao.IUserLocationDao">
+    <insert id="saveUserLocation" parameterType="com.shoppings.model.UserLocation" >
+        INSERT INTO `shopping`.`user_location` (
+          `shipping_address`,
+          `user_id`,
+          `shipping_perpson`,
+          `shipping_phone`
+        )
+        VALUES
+          (
+            #{shippingAddress},
+            #{userId},
+            #{shippingPerpson},
+            #{shippingPhone}
+          ) ;
+
+    </insert>
+    
+   <select id="selectUserLocation" parameterType="java.lang.String"  resultType="java.lang.Integer">
+       SELECT COUNT(*)  FROM yg_user a  INNER  JOIN  user_location b ON a.user_id = b.user_id
+       WHERE user_openid = #{useropenid}
+   </select>
+
+    <update id="updateUserLocation" parameterType="java.util.Map" >
+
+        UPDATE user_location a INNER JOIN yg_user b ON a.user_id = b.user_id
+        SET shipping_phone = #{map.ul.shippingPhone} , shipping_address = #{map.ul.shippingAddress} , shipping_perpson = #{map.ul.shippingPerpson}
+        WHERE `user_openid` = #{map.useropenid} AND b.user_id = #{map.ul.userId}
+
+    </update>
+
+    <select id="selectNowUserLocation"  parameterType="java.lang.Integer" resultType="com.shoppings.model.UserLocation">
+
+       SELECT userlocation_id userlocationid,shipping_address shippingAddress,user_id userId,shipping_perpson shippingPerpson, shipping_phone shippingPhone
+       FROM user_location WHERE user_id = #{userid}
+    </select>
+
+
+</mapper>
